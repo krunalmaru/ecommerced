@@ -1,3 +1,4 @@
+{% load static %}
 <header class="header d-blue-bg">
     <div class="header-top">
         <div class="container">
@@ -56,7 +57,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-sm-4">
                         <div class="header__info">
                             <div class="logo">
-                                <a href="index.html" class="logo-image"><img src="assets/img/logo/logo1.svg" alt="logo"></a>
+                                <a href="" class="logo-image"><img src="{% static 'img/logo/logo1.svg' %}" alt="logo"></a>
                             </div>
                         </div>
                     </div>
@@ -518,7 +519,7 @@
     <div class="offcanvas__content">
         <div class="offcanvas__logo mb-40">
             <a href="index.html">
-            <img src="assets/img/logo/logo-white.png" alt="logo">
+            <img src="{% static 'img/logo/logo-white.png' %}" alt="logo">
             </a>
         </div>
         <div class="offcanvas__search mb-25">

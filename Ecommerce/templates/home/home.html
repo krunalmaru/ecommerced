@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block main %}
 <main>
     <!-- slider-area-start -->
     <div class="slider-area">
         <div class="swiper-container slider__active">
             <div class="slider-wrapper swiper-wrapper">
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="assets/img/slider/01-slide-1.jpg">
+                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'img/slider/01-slide-1.jpg' %}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-5">
@@ -23,7 +24,7 @@
                         </div>
                     </div>
                 </div><!-- /single-slider -->
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="assets/img/slider/01-slide-2.jpg">
+                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'img/slider/01-slide-2.jpg' %}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-5">
