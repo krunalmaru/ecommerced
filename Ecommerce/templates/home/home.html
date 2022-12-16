@@ -6,24 +6,28 @@
     <div class="slider-area">
         <div class="swiper-container slider__active">
             <div class="slider-wrapper swiper-wrapper">
-                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{% static 'img/slider/01-slide-1.jpg' %}">
+                {% for slider in slider  %}
+                  
+                <div class="single-slider swiper-slide slider-height d-flex align-items-center" data-background="{{slider.image.url}}">
                     <div class="container">
                         <div class="row">
                             <div class="col-xl-5">
                                 <div class="slider-content">
                                     <div class="slider-top-btn" data-animation="fadeInLeft" data-delay="1.5s">
-                                        <a href="product-details.html" class="st-btn b-radius">HOT DEALS</a>
+                                        <a href="product-details.html" class="st-btn b-radius">{{slider.discount_deal}}</a>
                                     </div>
-                                    <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5">SALE 30% OFF <br> FUTURE FOOTBALL BOOTS</h2>
-                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s">Discount 30% On Products & Free Shipping</p>
+                                    <h2 data-animation="fadeInLeft" data-delay="1.7s" class="pt-15 slider-title pb-5">SALE {{slider.sale}}% OFF <br> {{slider.brand_name}}</h2>
+                                    <p class="pr-20 slider_text" data-animation="fadeInLeft" data-delay="1.9s">Discount {{slider.discount}}% On Products & Free Shipping</p>
                                     <div class="slider-bottom-btn mt-75">
-                                        <a data-animation="fadeInUp" data-delay="1.15s" href="shop.html" class="st-btn-b b-radius">Discover now</a>
+                                        <a data-animation="fadeInUp" data-delay="1.15s" href="{{slider.link}}" class="st-btn-b b-radius">Discover now</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div><!-- /single-slider -->
+                {% endfor %}
+
                 <div class="main-slider-paginations"></div>
             </div>
         </div>
@@ -87,39 +91,19 @@
     <section class="banner__area pt-20 pb-10">
         <div class="container">
             <div class="row">
+                {% for ban in banner %}
                 <div class="col-xl-4 col-lg-4 col-md-6">
                     <div class="banner__item p-relative w-img mb-30">
                         <div class="banner__img">
-                            <a href="product-details.html"><img src="assets/img/banner/banner-1.jpg" alt=""></a>
+                            <a href="product-details.html"><img src="{{ban.image.url}}" alt=""></a>
                         </div>
                         <div class="banner__content">
-                            <h6><a href="product-details.html">Intelligent <br> New Touch Control</a></h6>
-                            <p>Discount  20% On Products</p>
+                            <h6><a href="product-details.html">{{ban.discount_deal}}<br> {{ban.quote}}</a></h6>
+                            <p>Discount {{ban.discount}}% On Products</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="banner__item p-relative mb-30 w-img">
-                        <div class="banner__img">
-                            <a href="product-details.html"><img src="assets/img/banner/banner-2.jpg" alt=""></a>
-                        </div>
-                        <div class="banner__content">
-                            <h6><a href="product-details.html">On-sale <br> Best Prices</a></h6>
-                            <p>Limited Time: Online Only!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="banner__item p-relative mb-30 w-img">
-                        <div class="banner__img">
-                            <a href="product-details.html"><img src="assets/img/banner/banner-3.jpg" alt=""></a>
-                        </div>
-                        <div class="banner__content">
-                            <h6><a href="product-details.html">Hot Sale <br> Super Laptops 2022 </a></h6>
-                            <p>Free Shipping All Order</p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
