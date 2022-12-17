@@ -1,5 +1,9 @@
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
+
+
 # Create your models here.
 class Slider(models.Model):
     Discount_Deal = (
@@ -65,9 +69,34 @@ class Product(models.Model):
     tags = models.CharField(max_length=100)
     description = RichTextField()
     section = models.ForeignKey(Section, on_delete=models.DO_NOTHING)
+    slug  = models.SlugField(default='', max_length=500, null=True,blank=True)
 
     def __str__(self) -> str:
         return self.product_name
+    
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse("", kwargs={'slug':self.slug})
+    
+    class Meta:
+        db_table = "app_product"
+
+def create_slug(instance, new_slug =None):
+    slug = slugify(instance.product_name)
+    if new_slug is not None:
+        slug = new_slug
+    qs =Product.objects.filter(slug=slug).order_by('-id')
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" % (slug,qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+    return slug
+
+def pre_save_post_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = create_slug(instance)
+pre_save.connect(pre_save_post_receiver, Product)
+    
 
 class Productimage(models.Model):
     Product = models.ForeignKey(Product, on_delete=models.CASCADE)
