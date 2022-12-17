@@ -69,7 +69,7 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.product_name
 
-class  Productimage(models.Model):
+class Productimage(models.Model):
     Product = models.ForeignKey(Product, on_delete=models.CASCADE)
     imageurl = models.CharField(max_length=150)
 
