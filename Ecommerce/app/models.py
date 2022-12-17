@@ -1,5 +1,5 @@
 from django.db import models
-
+from ckeditor.fields import RichTextField
 # Create your models here.
 class Slider(models.Model):
     Discount_Deal = (
@@ -53,17 +53,17 @@ class Section(models.Model):
         return self.name
 
 class Product(models.Model):
+    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=100)
     total_quantity = models.IntegerField()
     availability = models.IntegerField()
     feature_image = models.CharField(max_length=100)
     price = models.IntegerField()
     discount = models.IntegerField()
-    product_information = models.TextField()
+    product_information = RichTextField()
     model_name = models.CharField(max_length=100)
-    categories = models.ForeignKey(Category, on_delete=models.CASCADE)
     tags = models.CharField(max_length=100)
-    description =models.TextField()
+    description = RichTextField()
     section = models.ForeignKey(Section, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
