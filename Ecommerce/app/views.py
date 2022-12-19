@@ -9,3 +9,8 @@ def home(request):
     context = {'slider':slider,'banner':banner, 'maincategory':maincategory,'product':product}
 
     return render(request, 'home/home.html',context)
+
+def productdetails(request, slug):
+    product = Product.objects.get(slug=slug)
+    context = {'product':product}
+    return render(request, 'product/productdetail.html', context)

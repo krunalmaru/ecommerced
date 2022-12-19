@@ -76,7 +76,7 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse("", kwargs={'slug':self.slug})
+        return reverse("product_detail", kwargs={'slug':self.slug})
     
     class Meta:
         db_table = "app_product"
