@@ -9,6 +9,18 @@
             
                             <div class="support d-none d-sm-block">
                                 <p>Need Help? <a href="tel:+001123456789">+001 123 456 789</a></p>
+                                {% if user.is_authenticated %}
+                                    <p>Welcome
+                                        {% if user.first_name == "" %}
+                                            {{user.email}}
+                                        {% else %}
+                                            {{user.first_name}}  {{user.last_name}}
+                                          
+                                        {% endif %}
+                                    </p>
+                                {% else %}  
+                                    <p>Please Login First</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
