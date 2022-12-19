@@ -37,6 +37,19 @@
                 <div class="col-lg-6">
                     <div class="basic-login mb-50">
                         <h5>Login</h5>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        {{message}}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                         <form action="{% url 'login' %}" method="post">
                             {% csrf_token %}
                             <label for="name">Username or email address  <span>*</span></label>

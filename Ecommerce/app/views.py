@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
+from django.contrib import messages
 from .models import Slider,Banner,Category,MainCategory,Subcategory,Product
 
 
@@ -37,8 +38,8 @@ def register(request):
         password = request.POST.get('password')
         user = User(username=username, email=email)
         user.set_password(password)
-        print(user)
         user.save()
+        
         return redirect('myaccount')
 
 def loginuser(request):
@@ -52,6 +53,7 @@ def loginuser(request):
             login(request,user)
             return redirect('home')
         else:
+            messages.error(request, 'Username and Password are Invalid')
             return redirect('myaccount')
 
     return render(request, 'accounts/myaccounts.html')
