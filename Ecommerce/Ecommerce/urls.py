@@ -24,10 +24,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home,name='home'),
     path('productdetail/<slug:slug>', views.productdetails, name="product_detail"),
-    path('account/myaccount/', views.myaccount, name='myaccount'),
-    path('account/register/', views.register, name='userregister'),
-    path('account/login/', views.loginuser, name='userlogin'),
+    
+    path('account/myaccount', views.myaccount, name='myaccount'),
+    path('account/register', views.register, name='userregister'),
+    path('account/login', views.loginuser, name='userlogin'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('account/profile', views.PROFILE, name='profile'),
+    path('account/profile/update', views.profileupdate, name='profileupdate'),
+    
 
 
 ]+static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
