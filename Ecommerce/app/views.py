@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from .models import Slider,Banner,Category,MainCategory,Subcategory,Product
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
@@ -65,3 +65,37 @@ def loginuser(request):
             return redirect('login')
 
     # return render(request, 'accounts/myaccounts.html')
+
+@login_required(login_url='/accounts/login/')
+def PROFILE(request):
+    return render(request, 'profile/profile.html')
+
+
+@login_required(login_url='/accounts/login/')
+def profileupdate(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user_id = request.user.id
+
+        user = User.objects.get(id=user_id)
+        
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.email = email
+
+        if password != None and password != "":
+            user.set_password(password)
+        user.save()
+        messages.success(request, 'Your Profile Update successfully')
+        return redirect('profile')
+    
+def aboutus(request):
+    return render(request, 'home/aboutus.html')
+
+def contactus(request):
+    return render(request, 'home/contactus.html')
