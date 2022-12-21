@@ -1,9 +1,12 @@
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from .models import Slider,Banner,Category,MainCategory,Subcategory,Product
 from django.contrib.auth.decorators import login_required
+from django.template.loader import render_to_string
+
 
 # Create your views here.
 def home(request):
@@ -99,3 +102,25 @@ def aboutus(request):
 
 def contactus(request):
     return render(request, 'home/contactus.html')
+
+def product(request):
+    category = Category.objects.all()
+    product = Product.objects.all().order_by('-id')
+    context = {'category':category, 'product':product}
+    return render(request, 'product/product.html', context)
+
+def filter_data(request):
+    categories = request.GET.getlist('category[]')
+    brands = request.GET.getlist('brand[]')
+    print(categories)
+    allProducts = Product.objects.all().order_by('-id').distinct()
+    print(allProducts)
+    if len(categories) > 0:
+        allProducts = allProducts.filter(category__id__in=categories).distinct()
+
+    if len(brands) > 0:
+        allProducts = allProducts.filter(Brand__id__in=brands).distinct()
+
+    t = render_to_string('ajax/product.html', {'product': allProducts})
+
+    return JsonResponse({'data': t})
