@@ -17,7 +17,7 @@ $(document).ready(function(){
 			});
 		});
 		$.ajax({
-			url:'{% url "filter-data" %}',
+			url:"{% url 'filter-data' %}",
 			data:filter_object,
 			dataType:'json',			
 			success:function(res){				
@@ -30,8 +30,8 @@ $(document).ready(function(){
 
 <style>
     input[type=range] {
-        -webkit-appearance: none;
-        width: 100%;
+    -webkit-appearance: none;
+    width: 100%;
     }
 
     input[type=range]::-webkit-slider-runnable-track {

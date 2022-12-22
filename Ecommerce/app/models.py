@@ -2,7 +2,7 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Slider(models.Model):
@@ -112,7 +112,8 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = create_slug(instance)
 pre_save.connect(pre_save_post_receiver, Product)
-    
+
+
 
 class Productimage(models.Model):
     Product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -122,3 +123,4 @@ class AdditionInfo(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     specification = models.CharField(max_length=255)
     detail = models.CharField(max_length=255)
+
