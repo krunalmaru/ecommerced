@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Productimage,Section,AdditionInfo
+from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Productimage,Section,AdditionInfo,Color,Brand
 # Register your models here.
 
 class Productimages(admin.TabularInline):
@@ -10,8 +10,8 @@ class AdditionInfos(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = (Productimages,AdditionInfos )
-    list_display = ('product_name','price','categories','section')
-    list_editable = ('categories','section')
+    list_display = ('product_name','price','color','categories','section')
+    list_editable = ('categories','color','section')
 
     
 admin.site.register(Slider)
@@ -23,6 +23,6 @@ admin.site.register(Product,ProductAdmin)
 admin.site.register(Productimage)
 admin.site.register(Section)
 admin.site.register(AdditionInfo)
-
-
+admin.site.register(Color )
+admin.site.register(Brand)
 

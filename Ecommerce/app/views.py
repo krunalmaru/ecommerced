@@ -3,10 +3,10 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
-from .models import Slider,Banner,Category,MainCategory,Subcategory,Product
+from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Color,Brand
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
-
+from django.db.models import Min,Max
 
 # Create your views here.
 def home(request):
@@ -106,20 +106,49 @@ def contactus(request):
 def product(request):
     category = Category.objects.all()
     product = Product.objects.all().order_by('-id')
-    context = {'category':category, 'product':product}
+    colo = Color.objects.all()
+    brand = Brand.objects.all()
+
+    min_price = Product.objects.all().aggregate(Min('price'))
+    max_price = Product.objects.all().aggregate(Max('price'))
+
+    FilterPrice = request.GET.get('FilterPrice')
+    colorID = request.GET.get('colorID')
+
+    if FilterPrice:
+        newfilterprice = int(FilterPrice)
+        product = Product.objects.filter(price__lte=newfilterprice)
+
+    elif colorID:
+        product = Product.objects.filter(color = colorID)
+        
+    else:
+        product = Product.objects.all()
+    context = {'category':category, 'product':product, 'minprice':min_price,'maxprice':max_price,'FilterPrice':FilterPrice, 'colo':colo,'brand':brand}
     return render(request, 'product/product.html', context)
 
 def filter_data(request):
     categories = request.GET.getlist('category[]')
-    brands = request.GET.getlist('brand[]')
     print(categories)
+    # brands = request.GET.getlist('brand[]')
+    product_num = request.GET.getlist('product_num[]')
+    brand = request.GET.getlist('brand[]')
+    
     allProducts = Product.objects.all().order_by('-id').distinct()
     print(allProducts)
     if len(categories) > 0:
-        allProducts = allProducts.filter(category__id__in=categories).distinct()
+        allProducts = allProducts.filter(categories__id__in=categories).distinct()
 
-    if len(brands) > 0:
-        allProducts = allProducts.filter(Brand__id__in=brands).distinct()
+    if len(brand) > 0:
+        allProducts = allProducts.filter(brand__id__in=brand).distinct()
+    
+    if len(product_num):
+        allProducts = allProducts.all().order_by('-id')[0:1]
+    
+    if len(brand) > 0:
+        allProducts = allProducts.filter(brand__id__in=brand).distinct()
+    
+   
 
     t = render_to_string('ajax/product.html', {'product': allProducts})
 
