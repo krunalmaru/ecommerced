@@ -56,9 +56,25 @@ class Section(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
+
+class Color(models.Model):
+    code = models.CharField(max_length=50)
+
+    def __str__(self) -> str:
+        return self.code
+
+class Brand(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self) -> str:
+        return self.name
+
 class Product(models.Model):
     categories = models.ForeignKey(Category, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=100)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE,null=True)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE, null=True)
     total_quantity = models.IntegerField()
     availability = models.IntegerField()
     feature_image = models.CharField(max_length=100)
