@@ -3,10 +3,10 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
-from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Color,Brand
+from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Color,Brand,Coupon_code
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
-from django.db.models import Min,Max
+from django.db.models import Min,Max,Sum
 from cart.cart import Cart
 
 
@@ -198,6 +198,32 @@ def cart_clear(request):
 
 @login_required(login_url="/accounts/login/")
 def cart_detail(request):
-   
-    return render(request, 'cart/cart.html')
+    cart = request.session.get('cart')
+    packing_cost= sum(i['packing_cost'] for i in cart.values() if i)
+    tax =sum(i['tax'] for i in cart.values() if i)
+    
+    coupon = None
+    valid_coupon = None
+    invalid_coupon = None
+    if request.method == 'GET':
+        
+        coupon_code = request.GET.get('coupon_code')
+        if coupon_code:
+            try:
+                coupon = Coupon_code.objects.get(code = coupon_code)
+                valid_coupon = "Are Apply on Current Order"
+            except:
+                invalid_coupon = "Invalid Coupon Code"
+        else:
+            pass
+
+    context = {
+        'packing_cost':packing_cost,
+        'tax':tax,
+        'coupon': coupon,
+        'valid_coupon':valid_coupon,
+        'invalid_coupon':invalid_coupon
+
+        }
+    return render(request, 'cart/cart.html',context)
 

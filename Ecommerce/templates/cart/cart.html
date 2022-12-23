@@ -84,11 +84,35 @@
                        <div class="row">
                           <div class="col-12">
                                 <div class="coupon-all">
+                                <form action="" method="get">    
                                    <div class="coupon">
+                                   
+                                        {% if valid_coupon %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong>{{coupon}}</strong>&nbsp; {{valid_coupon}}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        {% elif invalid_coupon %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>{{invalid_coupon}}</strong> 
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        {% else %}
+                                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                            <strong>Apply Coupan Code Here</strong>
+                                        </div>
+                                        {% endif %}
+                                    
+                                    
                                       <input id="coupon_code" class="input-text" name="coupon_code"  placeholder="Coupon code" type="text">
                                       <button class="tp-btn-h1" name="apply_coupon" type="submit">Apply
                                             coupon</button>
                                    </div>
+                                </form>
                                    <div class="coupon2">
                                       <a href="{% url 'cart_clear'%}" class="tp-btn-h1" name="update_cart" >Cleare cart</a>
                                    </div>
@@ -103,16 +127,20 @@
                                       <li>Amount :<span>₹ {{cart_total_amount}}</span></li>
                                       <li>Tax :<span>₹ {{tax}}</span></li>
                                       <li>Packing charge: <span>₹ {{packing_cost}}</span></li>
+                                      {% if valid_coupon %}
+                                      <li class="text-danger">Coupon Code Applied<span> {{coupon.discount}}%</span></li>
+                                      {% endif %}
                                       {% if cart_total_amount == 0 %}
                                       <li class="text-info">Delivery Charge :<span class="text-info"> ₹ 0.0</span></li>
-                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger" id="total">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
                                       {% elif cart_total_amount > 500 %}
                                       <li class="text-info">Delivery Charge :<span class="text-info">Free</span></li>
-                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger" id="total">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
                                       {% else %}
                                       <li class="text-info">Delivery Charge :<span class="text-info">₹ 120</span></li>
-                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost|add:120}}</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger" id="total">₹ {{cart_total_amount|add:tax|add:packing_cost|add:120}}</span></li>
                                       {% endif %}
+                                     
                                    </ul>
                                    <a class="tp-btn-h1" href="checkout.html">Proceed to checkout</a>
                                 </div>
@@ -176,5 +204,24 @@
     <!-- cta-area-end -->
 
 </main>
+<script>
+    var item_amount = {{cart_total_amount}};
+    var tax = {{tax}}
+    var packing_cost= {{packing_cost}}
+    var total = tax + packing_cost
+
+    var coupon_discount = {{coupon.discount}}
+    console.log(coupon_discount)
+    if (coupon_discount){
+        if (item_amount < 500){
+            cal_discount = item_amount - (item_amount * coupon_discount/100) +total+120
+            document.getElementById('total').innerHTML = '₹'+ ''+ cal_discount.toFixed()
+        }
+        else{
+            cal_discount = item_amount -(item_amount *coupon_discount/100) + total
+            document.getElementById('total').innerHTML = '₹'+''+ cal_discount.toFixed()
+        }
+    }
+</script>
 
 {% endblock%}

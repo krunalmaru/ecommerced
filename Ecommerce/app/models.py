@@ -80,6 +80,8 @@ class Product(models.Model):
     feature_image = models.CharField(max_length=100)
     price = models.IntegerField()
     discount = models.IntegerField()
+    tax = models.IntegerField(null=True)
+    packing_cost = models.IntegerField(null=True)
     product_information = RichTextField()
     model_name = models.CharField(max_length=100)
     tags = models.CharField(max_length=100)
@@ -113,6 +115,12 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
         instance.slug = create_slug(instance)
 pre_save.connect(pre_save_post_receiver, Product)
 
+class Coupon_code(models.Model):
+    code = models.CharField(max_length=100)
+    discount = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.code
 
 
 class Productimage(models.Model):

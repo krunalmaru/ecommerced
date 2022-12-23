@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Productimage,Section,AdditionInfo,Color,Brand
+from .models import Slider,Banner,Category,MainCategory,Subcategory,Product,Productimage,Section,AdditionInfo,Color,Brand,Coupon_code
 # Register your models here.
 
 class Productimages(admin.TabularInline):
@@ -25,4 +25,4 @@ admin.site.register(Section)
 admin.site.register(AdditionInfo)
 admin.site.register(Color )
 admin.site.register(Brand)
-
+admin.site.register(Coupon_code)
