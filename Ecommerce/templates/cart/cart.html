@@ -85,7 +85,7 @@
                           <div class="col-12">
                                 <div class="coupon-all">
                                    <div class="coupon">
-                                      <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
+                                      <input id="coupon_code" class="input-text" name="coupon_code"  placeholder="Coupon code" type="text">
                                       <button class="tp-btn-h1" name="apply_coupon" type="submit">Apply
                                             coupon</button>
                                    </div>
@@ -100,8 +100,19 @@
                                 <div class="cart-page-total">
                                    <h2>Cart totals</h2>
                                    <ul class="mb-20">
-                                      <li>Subtotal <span>₹ {{cart_total_amount}}</span></li>
-                                      <li>Total <span>₹ {{value.cart_total_amount}}</span></li>
+                                      <li>Amount :<span>₹ {{cart_total_amount}}</span></li>
+                                      <li>Tax :<span>₹ {{tax}}</span></li>
+                                      <li>Packing charge: <span>₹ {{packing_cost}}</span></li>
+                                      {% if cart_total_amount == 0 %}
+                                      <li class="text-info">Delivery Charge :<span class="text-info"> ₹ 0.0</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
+                                      {% elif cart_total_amount > 500 %}
+                                      <li class="text-info">Delivery Charge :<span class="text-info">Free</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost}}</span></li>
+                                      {% else %}
+                                      <li class="text-info">Delivery Charge :<span class="text-info">₹ 120</span></li>
+                                      <li class="text-danger">Total Amount: <span class="text-danger">₹ {{cart_total_amount|add:tax|add:packing_cost|add:120}}</span></li>
+                                      {% endif %}
                                    </ul>
                                    <a class="tp-btn-h1" href="checkout.html">Proceed to checkout</a>
                                 </div>
