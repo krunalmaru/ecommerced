@@ -86,10 +86,10 @@
                                 <div class="coupon-all">
                                 <form action="" method="get">    
                                    <div class="coupon">
-                                   
-                                        {% if valid_coupon %}
+                                  
+                                        {% if valide_coupon %}
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{coupon}}</strong>&nbsp; {{valid_coupon}}
+                                            <strong>{{coupon.code}}</strong>&nbsp; {{valid_coupon}}
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                             </button>
@@ -101,13 +101,9 @@
                                             <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        {% else %}
-                                        <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                            <strong>Apply Coupan Code Here</strong>
-                                        </div>
                                         {% endif %}
                                     
-                                    
+                                   
                                       <input id="coupon_code" class="input-text" name="coupon_code"  placeholder="Coupon code" type="text">
                                       <button class="tp-btn-h1" name="apply_coupon" type="submit">Apply
                                             coupon</button>
@@ -128,7 +124,7 @@
                                       <li>Tax :<span>₹ {{tax}}</span></li>
                                       <li>Packing charge: <span>₹ {{packing_cost}}</span></li>
                                       {% if valid_coupon %}
-                                      <li class="text-danger">Coupon Code Applied<span> {{coupon.discount}}%</span></li>
+                                      <li class="text-danger">Coupon Code Applied<span  id="amount1">{{coupon.discount}}%</span></li>
                                       {% endif %}
                                       {% if cart_total_amount == 0 %}
                                       <li class="text-info">Delivery Charge :<span class="text-info"> ₹ 0.0</span></li>
@@ -142,7 +138,8 @@
                                       {% endif %}
                                      
                                    </ul>
-                                   <a class="tp-btn-h1" href="checkout.html">Proceed to checkout</a>
+                                   <h3>{{user.id}}</h3>
+                                   <a class="tp-btn-h1" href="{% url 'checkout'%}">Proceed to checkout</a>
                                 </div>
                           </div>
                        </div>

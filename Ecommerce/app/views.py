@@ -206,7 +206,7 @@ def cart_detail(request):
     valid_coupon = None
     invalid_coupon = None
     if request.method == 'GET':
-        
+
         coupon_code = request.GET.get('coupon_code')
         if coupon_code:
             try:
@@ -227,3 +227,25 @@ def cart_detail(request):
         }
     return render(request, 'cart/cart.html',context)
 
+def checkout(request):
+    coupon_discount = None
+    if request.method == 'POST':
+        coupon_discount = request.POST.get('coupon_discount')
+        if coupon_discount:
+            try:
+                coupon_discount = Coupon_code.objects.get(code = coupon_discount)
+                valid_coupon = "Are Apply on Current Order"
+            except:
+                invalid_coupon = "Invalid Coupon Code"
+        else:
+            pass
+    cart = request.session.get('cart')
+    print(cart)
+    packing_cost= sum(i['packing_cost'] for i in cart.values() if i)
+    tax =sum(i['tax'] for i in cart.values() if i)
+    tax_and_packing_cost = (tax + packing_cost)
+    context = {
+        'tax_and_packing_cost':tax_and_packing_cost,
+        'coupon_discount':coupon_discount
+    }
+    return render(request,'home/checkout.html',context)
